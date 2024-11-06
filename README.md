@@ -1,5 +1,5 @@
 ## Ссылка на репозиторий
-https://github.com/pokayfu/Async_API_sprint_2
+https://github.com/pokayfu/Async_API_sprint_3
 ## How to start functional tests
 * Execute the command `docker compose -f tests/functional/docker-compose.yml up`
 
