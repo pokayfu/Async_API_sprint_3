@@ -1,0 +1,57 @@
+version: '3'
+
+volumes:
+  pg_data:
+  static:
+  es_data:
+
+services:
+
+  fastapi:
+    build: ../../.
+    command: bash -c "uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload"
+    env_file:
+      - ../../.env
+    ports:
+      - "8000:8000"
+    depends_on:
+      - es
+      - cache
+
+  es:
+    image: elasticsearch:8.14.1
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    ports:
+      - "9200:9200"
+    volumes:
+      - es_data:/usr/share/elasticsearch/data
+    healthcheck:
+      test: [ "CMD-SHELL", "curl http://localhost:9200/" ]
+      interval: 5s
+      timeout: 10s
+      retries: 10
+
+  cache:
+    image: redis:7.2
+    ports:
+      - "6379:6379"
+
+  tests:
+    image: python:3.12
+    container_name: functional-tests
+    volumes:
+      - ../../tests:/tests
+    env_file:
+      - ../../.env
+    depends_on:
+      - fastapi
+      - es
+      - cache
+    entrypoint: >
+      sh -c "export PYTHONPATH=/tests:${PYTHONPATH}
+      && pip install -r /tests/functional/requirements.txt
+      && python3 /tests/functional/utils/wait_for_es.py
+      && python3 /tests/functional/utils/wait_for_redis.py
+      && pytest /tests/functional/src"

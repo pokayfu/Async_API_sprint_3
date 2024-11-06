@@ -1,9 +1,8 @@
-# Проектная работа спринта
+## Ссылка на репозиторий
+https://github.com/pokayfu/Async_API_sprint_2
+## How to start functional tests
+* Execute the command `docker compose -f tests/functional/docker-compose.yml up`
 
-В папке **tasks** ваша команда найдёт задачи, которые необходимо выполнить в третьем спринте модуля "Сервис Async API".
-
-Как и в прошлом спринте, мы оценили задачи в стори поинтах.
-
-Вы можете разбить эти задачи на более маленькие, например, распределять между участниками команды не большие куски задания, а маленькие подзадачи. В таком случае не забудьте зафиксировать изменения в issues в репозитории.
-
-**От каждого разработчика ожидается выполнение минимум 40% от общего числа стори поинтов в спринте.**
+## How to install pre-commit
+1. `pre-commit install`
+2. `git commit` - to setup and check that everything is working
