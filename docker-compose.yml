@@ -32,6 +32,19 @@ services:
       timeout: 3s
       retries: 3
 
+  file_api:
+    container_name: file_api
+    build: ./file_api
+    volumes:
+      - .:/file_api
+    env_file:
+      - .env
+    ports:
+      - "8080:8080"
+    depends_on:
+      - minio
+      - db
+
   es:
     image: elasticsearch:8.14.1
     environment:
