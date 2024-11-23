@@ -25,6 +25,7 @@ class MovieModel(BaseModel):
     title: str
     persons: List[PersonModel] | None = Field(exclude=True)
     description: str | None
+    url: str | None = Field(default=None)
 
     def _get_persons_by_role(self, role: str) -> List[PersonModel]:
         """Filter persons by role."""
@@ -45,7 +46,7 @@ class MovieModel(BaseModel):
 
     def dict(self, **kwargs) -> Dict:
         """Override dict method to include role-based person information."""
-        obj_dict = super().dict(**kwargs)
+        obj_dict = super().model_dump(**kwargs)
         for role_key, role_value in ROLES.items():
             obj_dict[role_key] = self._get_persons_info(role_value)
             obj_dict[f'{role_key}_names'] = self._get_persons_names(role_value)

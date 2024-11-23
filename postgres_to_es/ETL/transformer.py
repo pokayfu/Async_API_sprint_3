@@ -2,6 +2,7 @@ from typing import Dict, List
 
 from models import GenreModel, MovieModel, PersonModel
 from settings.settings import logger
+from settings.settings import file_api_settings
 
 
 class DataTransformer:
@@ -19,6 +20,8 @@ class DataTransformer:
             for row in rows:
                 try:
                     if data_type == 'movies':
+                        if short_name := row.get("short_name"):
+                            row["url"] = file_api_settings.file_api_domain + short_name
                         transformed_data['movies'].append(MovieModel(**row))
                     elif data_type == 'genres':
                         transformed_data['genres'].append(GenreModel(**row))

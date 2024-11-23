@@ -5,10 +5,10 @@ import backoff
 import elastic_transport
 from elasticsearch import Elasticsearch, helpers
 
-from persons_index import persons_index
-from genres_index import genres_index
+from indexes.persons_index import persons_index
+from indexes.genres_index import genres_index
+from indexes.movies_index import movies_index
 from models import GenreModel, MovieModel
-from movies_index import movies_index
 from settings.settings import ElasticsearchSettings
 
 

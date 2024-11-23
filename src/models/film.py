@@ -39,6 +39,7 @@ class Film(BaseModel):
     title: str
     description: str | None
     genres: list[str]
+    url: str | None
     directors_names: list[str]
     actors_names: list[str]
     writers_names: list[str]
