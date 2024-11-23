@@ -4,6 +4,7 @@ volumes:
   pg_data:
   static:
   es_data:
+  minio_storage:
 
 services:
 
@@ -17,6 +18,19 @@ services:
     depends_on:
       - es
       - cache
+  
+  file_api:
+    container_name: file_api
+    build: ./file_api
+    volumes:
+      - .:/file_api
+    env_file:
+      - .env
+    ports:
+      - "8080:8080"
+    depends_on:
+      - minio
+      - db
 
   db:
     image: postgres:16
@@ -47,6 +61,18 @@ services:
       interval: 5s
       timeout: 10s
       retries: 10
+
+  minio:
+    image: minio/minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      - MINIO_ROOT_USER=${MINIO_ROOT_USER}
+      - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
+    volumes:
+      - minio_storage:/data
+    command: server --console-address ":9001" /data
 
   cache:
     image: redis:7.2
