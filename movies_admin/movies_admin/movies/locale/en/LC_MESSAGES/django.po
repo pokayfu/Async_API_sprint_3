@@ -1,0 +1,102 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-05-20 21:38+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+#: movies/admin.py:8
+msgid "filmwork genre"
+msgstr "Filmwork genre"
+
+#: movies/admin.py:9
+msgid "filmwork genres"
+msgstr "Filmwork genres"
+
+#: movies/admin.py:14
+msgid "filmwork person"
+msgstr "Filmwork person"
+
+#: movies/admin.py:15
+msgid "filmwork persons"
+msgstr "Filmwork persons"
+
+#: movies/apps.py:8
+msgid "movies"
+msgstr "Movies"
+
+#: movies/models.py:23
+msgid "movie"
+msgstr "Movie"
+
+#: movies/models.py:24
+msgid "tv show"
+msgstr "TV Show"
+
+#: movies/models.py:26
+msgid "title"
+msgstr "Title"
+
+#: movies/models.py:27 movies/models.py:49
+msgid "description"
+msgstr "Description"
+
+#: movies/models.py:28
+msgid "creation date"
+msgstr "Creation dtae"
+
+#: movies/models.py:30
+msgid "rating"
+msgstr "Rating"
+
+#: movies/models.py:33
+msgid "type"
+msgstr "Type"
+
+#: movies/models.py:43 movies/models.py:61 movies/models.py:82
+msgid "filmwork"
+msgstr "Filmwork"
+
+#: movies/models.py:44
+msgid "filmworks"
+msgstr "Filmworks"
+
+#: movies/models.py:48
+msgid "name"
+msgstr "Name"
+
+#: movies/models.py:56 movies/models.py:62
+msgid "genre"
+msgstr "Genre"
+
+#: movies/models.py:57
+msgid "genres"
+msgstr "Genres"
+
+#: movies/models.py:70
+msgid "full name"
+msgstr "Full name"
+
+#: movies/models.py:77 movies/models.py:83
+msgid "person"
+msgstr "Person"
+
+#: movies/models.py:78
+msgid "persons"
+msgstr "Persons"
+
+#: movies/models.py:84
+msgid "role"
+msgstr "Role"

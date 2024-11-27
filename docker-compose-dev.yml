@@ -1,12 +1,16 @@
-version: '3'
-
-volumes:
-  pg_data:
-  static:
-  es_data:
-  minio_storage:
-
 services:
+
+  movies_admin:
+    build: ./movies_admin
+    container_name: movies_admin
+    env_file:
+      - .env
+    ports:
+      - "8001:8000"
+    depends_on:
+      - db
+    volumes:
+      - static_data:/vol/web
 
   fastapi:
     build: .
@@ -18,7 +22,7 @@ services:
     depends_on:
       - es
       - cache
-  
+
   file_api:
     container_name: file_api
     build: ./file_api
@@ -32,8 +36,21 @@ services:
       - minio
       - db
 
+  nginx:
+    image: nginx:${NGINX_TAG}
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/configs:/etc/nginx/conf.d:ro
+      - static_data:/data
+    env_file:
+      - .env
+    ports:
+      - "80:80"
+    depends_on:
+      - movies_admin
+
   db:
-    image: postgres:16
+    image: postgres:${POSTGRES_TAG}
     ports:
       - "5432:5432"
     volumes:
@@ -48,7 +65,7 @@ services:
       retries: 3
 
   es:
-    image: elasticsearch:8.14.1
+    image: elasticsearch:${ELASTICSEARCH_TAG}
     environment:
       - discovery.type=single-node
       - xpack.security.enabled=false
@@ -75,7 +92,7 @@ services:
     command: server --console-address ":9001" /data
 
   cache:
-    image: redis:7.2
+    image: redis:${REDIS_TAG}
     ports:
       - "6379:6379"
 
@@ -88,3 +105,9 @@ services:
         condition: service_healthy
       db:
         condition: service_healthy
+
+volumes:
+  pg_data:
+  static_data:
+  es_data:
+  minio_storage:
