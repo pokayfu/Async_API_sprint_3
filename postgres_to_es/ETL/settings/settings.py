@@ -10,13 +10,13 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(name)s %(levelnam
 
 
 class FileApiSettings(BaseSettings):
-    file_api_host: str = Field(alias='FILE_API_UVICORN_HOST')
+    file_api_host_direct: str = Field(alias='FILE_API_UVICORN_HOST_DIRECT')
     file_api_port: str = Field(alias='FILE_API_UVICORN_PORT')
     url_subdirectory: str = '/api/v1/files/download/'
 
     @property
     def file_api_domain(self) -> str:
-        return f'http://{self.file_api_host}:{self.file_api_port}{self.url_subdirectory}'
+        return f'http://{self.file_api_host_direct}:{self.file_api_port}{self.url_subdirectory}'
 
 
 class PostgresDBSettings(BaseSettings):
@@ -51,7 +51,7 @@ SQL_MODIFIED_QUERY = """SELECT
    fw.description,
    fw.rating,
    fw.type,
-   f.short_name,
+   fw.file,
    COALESCE (
        json_agg(
            DISTINCT jsonb_build_object(
@@ -64,13 +64,12 @@ SQL_MODIFIED_QUERY = """SELECT
    ) as persons,
    array_agg(DISTINCT g.name) as genres
 FROM content.film_work fw
-LEFT JOIN content.files f ON f.id = fw.file_id
 LEFT JOIN content.person_film_work pfw ON pfw.film_work_id = fw.id
 LEFT JOIN content.person p ON p.id = pfw.person_id
 LEFT JOIN content.genre_film_work gfw ON gfw.film_work_id = fw.id
 LEFT JOIN content.genre g ON g.id = gfw.genre_id
 WHERE fw.updated_at > %s OR g.updated_at > %s OR p.updated_at > %s
-GROUP BY fw.id, f.short_name
+GROUP BY fw.id
 ORDER BY fw.updated_at;"""
 
 SQL_QUERY = """
@@ -80,7 +79,7 @@ SELECT
    fw.description,
    fw.rating,
    fw.type,
-   f.short_name,
+   fw.file,
    COALESCE (
        json_agg(
            DISTINCT jsonb_build_object(
@@ -93,12 +92,11 @@ SELECT
    ) as persons,
    array_agg(DISTINCT g.name) as genres
 FROM content.film_work fw
-LEFT JOIN content.files f ON f.id = fw.file_id
 LEFT JOIN content.person_film_work pfw ON pfw.film_work_id = fw.id
 LEFT JOIN content.person p ON p.id = pfw.person_id
 LEFT JOIN content.genre_film_work gfw ON gfw.film_work_id = fw.id
 LEFT JOIN content.genre g ON g.id = gfw.genre_id
-GROUP BY fw.id, f.short_name
+GROUP BY fw.id
 ORDER BY fw.updated_at;
 """
 

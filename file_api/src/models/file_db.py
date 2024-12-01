@@ -14,7 +14,7 @@ class Base(AsyncAttrs, DeclarativeBase):
 
 
 class FileDbModel(Base):
-    __tablename__ = 'files'
+    __tablename__ = 'file'
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     path_in_storage = Column(String(255), nullable=False, unique=True)
