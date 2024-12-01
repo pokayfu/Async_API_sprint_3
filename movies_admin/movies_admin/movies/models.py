@@ -1,5 +1,9 @@
 import uuid
+import requests
 
+from django.conf import settings
+from django.core.files.storage import Storage
+from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -24,6 +28,23 @@ class FilmworkType(models.TextChoices):
     TV_SHOW = "tv show", _("tv show")
 
 
+class MinioStorage(Storage):
+    def _save(self, name, content: InMemoryUploadedFile):
+        r = requests.post(
+            f'http://{settings.FILE_API_UVICORN_HOST}:{settings.FILE_API_UVICORN_PORT}/api/v1/files/upload', params={"path": content.name}, files={'file': (content.name, content, content.content_type)}
+        )
+        return r.json().get('short_name')
+
+    def _open(self, name):
+        return requests.get(f'http://{settings.FILE_API_UVICORN_HOST}:{settings.FILE_API_UVICORN_PORT}/api/v1/files/download/{name}')
+    
+    def url(self, name):
+        return  f'http://{settings.FILE_API_UVICORN_HOST_DIRECT}:{settings.FILE_API_UVICORN_PORT}/api/v1/files/download/{name}'
+
+    def exists(self, name):
+        return False
+
+
 class Filmwork(UUIDMixin, TimeStampedMixin):
     title = models.CharField(_("title"), max_length=255)
     description = models.TextField(_("description"), blank=True, null=True)
@@ -37,7 +58,7 @@ class Filmwork(UUIDMixin, TimeStampedMixin):
         choices=FilmworkType.choices,
         default=FilmworkType.MOVIE,
     )
-    file_path = models.TextField(_("file path"), blank=True, null=True)
+    file = models.FileField(storage=MinioStorage(), null=True)
     genres = models.ManyToManyField(to="Genre", through="GenreFilmwork")
     persons = models.ManyToManyField("Person", through="PersonFilmwork")
 

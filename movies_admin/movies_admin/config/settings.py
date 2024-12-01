@@ -42,3 +42,7 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 LOCALE_PATHS = ["movies/locale"]
+
+FILE_API_UVICORN_HOST_DIRECT = os.environ.get("FILE_API_UVICORN_HOST_DIRECT", "localhost")
+FILE_API_UVICORN_HOST = os.environ.get("FILE_API_UVICORN_HOST", "localhost")
+FILE_API_UVICORN_PORT = os.environ.get("FILE_API_UVICORN_PORT", "8080")

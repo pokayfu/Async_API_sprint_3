@@ -20,7 +20,7 @@ class DataTransformer:
             for row in rows:
                 try:
                     if data_type == 'movies':
-                        if short_name := row.get("short_name"):
+                        if short_name := row.get("file"):
                             row["url"] = file_api_settings.file_api_domain + short_name
                         transformed_data['movies'].append(MovieModel(**row))
                     elif data_type == 'genres':
