@@ -10,6 +10,7 @@ films = [
         "genres": ["Action", "Sci-Fi"],
         "title": "The Star",
         "description": "New World",
+        "url": None,
         "directors_names": ["Stan"],
         "actors_names": ["Ann", "Bob"],
         "writers_names": ["Ben", "Howard"],
