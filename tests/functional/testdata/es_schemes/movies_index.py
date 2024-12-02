@@ -64,6 +64,9 @@ movies_index = {
         "type": "text",
         "analyzer": "ru_en"
       },
+      "url": {
+        "type": "text"
+      },
       "directors_names": {
         "type": "text",
         "analyzer": "ru_en"
