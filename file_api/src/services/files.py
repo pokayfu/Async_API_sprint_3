@@ -14,6 +14,7 @@ from file_api.src.db.minio import get_minio
 from file_api.src.models.file_db import FileDbModel
 from shortuuid import uuid as shortuuid
 from file_api.src.utils.exceptions import NotFoundException, FileAlreadyExists
+from file_api.src.core.config import app_settings
 
 
 class FileService:
@@ -70,7 +71,8 @@ class FileService:
         )
 
     async def get_presigned_url(self, path: str) -> str:
-        return await self.client.get_presigned_url('GET', minio_settings.backet_name, path, expires=timedelta(days=1), )
+        return await self.client.get_presigned_url('GET', minio_settings.backet_name, path, expires=timedelta(days=1),
+                                                   change_host=f'http://{app_settings.uvicorn_host}:{minio_settings.minio_port}')
 
     async def does_file_already_exists(self, bucket, path) -> bool:
         try:
