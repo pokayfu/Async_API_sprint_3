@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+
+  test-runner:
+    build:
+      context: ../..
+      dockerfile: tests/unit/Dockerfile
+    #command: tail -f /dev/null
+    command: pytest /app/tests/unit
+    env_file:
+      - ../../.env
