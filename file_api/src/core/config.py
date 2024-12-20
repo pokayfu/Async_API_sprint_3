@@ -3,7 +3,8 @@ from logging import config as logging_config
 from pydantic import  Field
 from src.core.logger import LOGGING
 from pydantic_settings import BaseSettings
-
+from dotenv import load_dotenv
+load_dotenv()
 
 class PostgresSettings(BaseSettings):
     db: str = Field(alias='DB_NAME')

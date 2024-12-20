@@ -5,6 +5,7 @@ from functools import lru_cache
 from aiohttp import ClientSession
 from fastapi import UploadFile, Depends
 from miniopy_async import Minio
+from miniopy_async.datatypes import Object as MinioObject
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from starlette.responses import StreamingResponse
@@ -79,7 +80,7 @@ class FileService:
             stat =  await self.client.stat_object(bucket, path)
         except Exception as e:
             return
-        if stat:
+        if stat and type(stat) is MinioObject:
             logging.error(f'Failed to upload the file, the filepath already exists - path: {path}')
             raise FileAlreadyExists
 
