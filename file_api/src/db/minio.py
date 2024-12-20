@@ -16,4 +16,3 @@ async def create_bucket_if_not_exists(bucket_name: str) -> None:
     found = await minio_client.bucket_exists(bucket_name)
     if not found:
         await minio_client.make_bucket(bucket_name)
-
