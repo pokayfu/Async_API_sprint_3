@@ -21,7 +21,8 @@ async def upload_file(file: UploadFile,
             size=file_record.size,
             file_type=file_record.file_type,
             short_name=file_record.short_name,
-            created_at=file_record.created_at
+            created_at=file_record.created_at,
+            user_id=file_record.user_id
         )
         return data.model_dump()
     except Exception as e:
