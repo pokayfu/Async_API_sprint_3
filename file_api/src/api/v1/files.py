@@ -43,7 +43,6 @@ async def get_presigned_url(short_name: str, service: FileService = Depends(get_
     try:
         file_record = await service.get_file_record(short_name)
         data = await service.get_presigned_url(file_record.path_in_storage)
-        print(data)
         return data
     except NotFoundException as e:
         raise e
