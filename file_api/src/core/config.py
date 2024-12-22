@@ -24,6 +24,7 @@ class MinIOSettings(BaseSettings):
     minio_root_user: str = Field(default='practicum', env='MINIO_ROOT_USER')
     minio_root_password: str = Field(default='StrongPass', env='MINIO_ROOT_PASSWORD')
     backet_name: str = Field(default='movies', env='BACKET_NAME')
+    secure_connection:bool = Field(default=False, env='SECURE_CONNECTION') == 'True' 
 
 class AppSettings(BaseSettings):
     project_name: str = Field(default='File API', env='File API')

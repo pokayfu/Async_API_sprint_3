@@ -13,7 +13,7 @@ async def lifespan(app: FastAPI):
         endpoint=f'{minio_settings.minio_host}:{minio_settings.minio_port}',
         access_key=minio_settings.minio_root_user,
         secret_key=minio_settings.minio_root_password,
-        secure=False,
+        secure=minio_settings.secure_connection,
     )
     set_minio(minio_client)
     await create_bucket_if_not_exists(minio_settings.backet_name)
