@@ -4,7 +4,7 @@ from starlette.responses import StreamingResponse
 from file_api.src.models.file import FileResponse
 from file_api.src.services.files import FileService, get_file_service
 from file_api.src.utils.exceptions import NotFoundException
-
+import logging
 router = APIRouter()
 
 
@@ -25,7 +25,7 @@ async def upload_file(file: UploadFile,
         )
         return data.model_dump()
     except Exception as e:
-        print(e)
+        logging.error(f"Ошибка при добавлении файла {e}")
         raise HTTPException(status_code=HTTPStatus.INTERNAL_SERVER_ERROR, detail=str(e))
 
 @router.get("/download/{short_name}", response_class=StreamingResponse)
